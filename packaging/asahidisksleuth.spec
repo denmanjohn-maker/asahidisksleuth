@@ -1,6 +1,6 @@
 Name:           asahidisksleuth
 Version:        0.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Honest disk usage analysis for Linux
 
 License:        MIT
@@ -56,5 +56,10 @@ and a full CLI: scan, top, info, overview, snapshots.
 %{_datadir}/metainfo/org.asahidisksleuth.app.metainfo.xml
 
 %changelog
+* Tue Sep 08 2026 John Denman - 0.1.0-2
+- Fix GUI failing to start when installed: register the embedded QML
+  resource import path (qrc:/) and set the Kirigami initial page
+  correctly, instead of relying on the build-tree filesystem fallback
+
 * Tue Sep 08 2026 John Denman - 0.1.0-1
 - Initial release: CLI + Kirigami GUI, btrfs snapshot awareness

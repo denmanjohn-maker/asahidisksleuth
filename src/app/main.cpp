@@ -21,6 +21,10 @@ int main(int argc, char *argv[])
     sunburstModel.setController(&controller);
 
     QQmlApplicationEngine engine;
+    // The QML module is embedded in the binary at :/asahidisksleuth (see the
+    // generated qmldir "prefer" line); make sure the engine searches there in
+    // addition to the default :/qt/qml and filesystem import paths.
+    engine.addImportPath(QStringLiteral("qrc:/"));
     engine.rootContext()->setContextProperty(QStringLiteral("controller"), &controller);
     engine.rootContext()->setContextProperty(QStringLiteral("sunburstModel"), &sunburstModel);
 

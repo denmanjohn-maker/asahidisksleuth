@@ -10,7 +10,7 @@ Kirigami.ApplicationWindow {
     minimumWidth: 700
     minimumHeight: 480
 
-    pageStack.initialPage: welcomePage
+    pageStack.initialPage: WelcomePage {}
     pageStack.defaultColumnWidth: Kirigami.Units.gridUnit * 30
 
     Component { id: welcomePage; WelcomePage {} }
@@ -19,12 +19,12 @@ Kirigami.ApplicationWindow {
     Connections {
         target: controller
         function onStateChanged() {
-            if (controller.state === 1) { // Scanning — stay, progress shown on welcome page
-            } else if (controller.state === 2) { // Results
+            if (controller.state === 2) { // Results
                 root.pageStack.replace(resultsPage);
-            } else {
+            } else if (controller.state === 0) { // Welcome
                 root.pageStack.replace(welcomePage);
             }
+            // state === 1 (Scanning): progress is shown on the welcome page.
         }
         function onErrorOccurred(message) {
             errorDialog.text = message;
