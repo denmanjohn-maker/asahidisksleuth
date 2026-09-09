@@ -38,6 +38,14 @@
   </categories>
 
   <releases>
+    <release version="0.2.0" date="2026-09-09">
+      <description>
+        <p>
+          btrfs Freeable lens: reflink clone families are detected via FIEMAP
+          and charged once — see what deleting shared content actually frees.
+        </p>
+      </description>
+    </release>
     <release version="0.1.0" date="2026-09-08">
       <description>
         <p>Initial release: CLI + Kirigami GUI, btrfs snapshot awareness.</p>

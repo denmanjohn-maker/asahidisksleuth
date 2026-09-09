@@ -1,6 +1,6 @@
 Name:           asahidisksleuth
-Version:        0.1.0
-Release:        2%{?dist}
+Version:        0.2.0
+Release:        1%{?dist}
 Summary:        Honest disk usage analysis for Linux
 
 License:        MIT
@@ -56,6 +56,11 @@ and a full CLI: scan, top, info, overview, snapshots.
 %{_datadir}/metainfo/org.asahidisksleuth.app.metainfo.xml
 
 %changelog
+* Wed Sep 09 2026 John Denman - 0.2.0-1
+- btrfs Freeable lens: FIEMAP reflink detection charges clone families
+  once at the LCA; per-clone freeable drops to private bytes
+- CLI: --size-mode unique / --detect-reflinks; GUI: Freeable toggle
+
 * Tue Sep 08 2026 John Denman - 0.1.0-2
 - Fix GUI failing to start when installed: register the embedded QML
   resource import path (qrc:/) and set the Kirigami initial page
