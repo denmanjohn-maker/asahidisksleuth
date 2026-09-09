@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Disk Sleuth
+GenericName=Disk Usage Analyzer
+Comment=Honest disk usage analysis for Linux
+Exec=asahidisksleuth-app
+Icon=drive-harddisk
+Type=Application
+Categories=System;FileTools;Qt;KDE;
+Keywords=disk;usage;space;storage;analyzer;
+Terminal=false

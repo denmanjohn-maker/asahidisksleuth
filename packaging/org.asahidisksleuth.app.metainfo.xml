@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.asahidisksleuth.app</id>
+  <name>Disk Sleuth</name>
+  <summary>Honest disk usage analysis for Linux</summary>
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  <developer_name>John Denman</developer_name>
+
+  <description>
+    <p>
+      Disk Sleuth shows where your disk space really went — with honest sizes
+      read straight from the kernel. Logical is what files claim; physical is
+      what the disk actually holds. Hardlinks are charged once, sparse and
+      compressed files report real savings, and unreadable folders are flagged
+      rather than silently skipped.
+    </p>
+    <p>
+      Features an interactive sunburst you can click to drill into folders, a
+      sortable tree, per-item "freeable now" estimates, and Move to Trash with
+      instant in-memory graph updates. Includes a full CLI
+      (asahidisksleuth scan/top/info/overview/snapshots) with JSON output.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">asahidisksleuth.desktop</launchable>
+
+  <url type="homepage">https://github.com/denmanjohn-maker/asahidisksleuth</url>
+
+  <provides>
+    <binary>asahidisksleuth</binary>
+    <binary>asahidisksleuth-app</binary>
+  </provides>
+
+  <categories>
+    <category>System</category>
+    <category>FileTools</category>
+  </categories>
+
+  <releases>
+    <release version="0.1.0" date="2026-09-08">
+      <description>
+        <p>Initial release: CLI + Kirigami GUI, btrfs snapshot awareness.</p>
+      </description>
+    </release>
+  </releases>
+
+  <content_rating type="oars-1.1"/>
+</component>
