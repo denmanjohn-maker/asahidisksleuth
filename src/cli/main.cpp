@@ -109,6 +109,7 @@ int cmdScan(QCommandLineParser &p)
     p.addOption({u"size-mode"_s, u"Lens: logical, physical, or unique (freeable)."_s, u"lens"_s,
                  u"physical"_s});
     p.addOption({u"cross-file-systems"_s, u"Traverse onto other mounts (default: stay on the starting volume)."_s});
+    p.addOption({u"detect-reflinks"_s, u"On btrfs/xfs, run the FIEMAP pass so freeable accounts for clone families (slower)."_s});
     p.addPositionalArgument(u"path"_s, u"Directory to scan (default: current directory)."_s,
                             u"[path]"_s);
     p.process(*QCoreApplication::instance());
@@ -126,6 +127,9 @@ int cmdScan(QCommandLineParser &p)
 
     ScanOptions options;
     options.crossVolumes = p.isSet(u"cross-file-systems"_s);
+    // The unique/freeable lens is only meaningful with reflink detection;
+    // enabling the lens implies the pass (explicit flag also works alone).
+    options.detectReflinks = p.isSet(u"detect-reflinks"_s) || lens == SizeLens::Unique;
 
     QString error;
     const ScanResult result = runScan(target, options, &error);
@@ -190,6 +194,7 @@ int cmdScan(QCommandLineParser &p)
         payload[u"totalFreeable"_s] = summary.totalUnique;
         payload[u"hardlinkedFiles"_s] = summary.hardlinkedFileCount;
         payload[u"sparseFiles"_s] = summary.sparseFileCount;
+        payload[u"cloneFiles"_s] = summary.cloneFileCount;
         payload[u"deniedDirectories"_s] = summary.deniedDirectoryCount;
         payload[u"partial"_s] = summary.partial;
         payload[u"wallSeconds"_s] = summary.wallSeconds;
@@ -216,6 +221,8 @@ int cmdScan(QCommandLineParser &p)
         notes.append(loc.toString(summary.hardlinkedFileCount) + u" hardlinks ⛓"_s);
     if (summary.sparseFileCount > 0)
         notes.append(loc.toString(summary.sparseFileCount) + u" sparse ▤"_s);
+    if (summary.cloneFileCount > 0)
+        notes.append(loc.toString(summary.cloneFileCount) + u" clones ⧉"_s);
     if (!notes.isEmpty())
         out() << style.dim(notes.join(u" · "_s)) << u'\n';
     out() << u'\n';

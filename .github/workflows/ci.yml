@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test:
+    # x86_64 Fedora container: validates the build + engine/CLI tests.
+    # (The reflink fixture self-skips on non-CoW filesystems.)
+    runs-on: ubuntu-latest
+    container: fedora:44
+
+    steps:
+      - name: Install build dependencies
+        run: |
+          dnf install -y \
+            gcc-c++ cmake ninja-build extra-cmake-modules git \
+            qt6-qtbase-devel qt6-qtdeclarative-devel qt6-qtsvg-devel \
+            kf6-kirigami-devel kf6-kcoreaddons-devel kf6-ki18n-devel kf6-kcrash-devel
+          dnf clean all
+
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+
+      - name: CLI smoke
+        run: |
+          ./build/src/cli/asahidisksleuth --version
+          ./build/src/cli/asahidisksleuth overview --json
+          ./build/src/cli/asahidisksleuth scan /usr --depth 1 --top 3 --json | head -5

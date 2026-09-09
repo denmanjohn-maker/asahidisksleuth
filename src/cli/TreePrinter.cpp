@@ -18,7 +18,7 @@ QString TreePrinter::badges(NodeFlags flags, const Style &style)
 {
     QStringList parts;
     if (flags.cloned())
-        parts.append(QStringLiteral("⧉"));
+        parts.append(QStringLiteral("⧉ clone"));
     if (flags.sparse())
         parts.append(QStringLiteral("▤"));
     if (flags.hardlinked())

@@ -69,6 +69,12 @@ Kirigami.Page {
                 Controls.ButtonGroup.group: lensGroup
                 onClicked: controller.lens = 0
             }
+            Controls.RadioButton {
+                text: "Freeable"
+                checked: controller.lens === 2
+                Controls.ButtonGroup.group: lensGroup
+                onClicked: controller.lens = 2
+            }
         }
 
         // Summary line

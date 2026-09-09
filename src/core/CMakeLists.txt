@@ -7,6 +7,10 @@ add_library(asahidisksleuth-core STATIC
     attrs/RawEntry.h
     attrs/DirectoryReader.cpp
     attrs/DirectoryReader.h
+    attrs/ExtentMap.cpp
+    attrs/ExtentMap.h
+    scan/ReflinkAnalyzer.cpp
+    scan/ReflinkAnalyzer.h
     scan/GraphBuilder.cpp
     scan/GraphBuilder.h
     scan/DirHandle.h

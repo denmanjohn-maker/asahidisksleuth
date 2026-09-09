@@ -1,6 +1,7 @@
 #include "ScanEngine.h"
 
 #include "DirHandle.h"
+#include "ReflinkAnalyzer.h"
 #include "VisitedSet.h"
 #include "WorkQueue.h"
 #include "../attrs/DirectoryReader.h"
@@ -207,6 +208,9 @@ ScanResult ScanSession::wait()
     const double wall = d->clock.nsecsElapsed() / 1e9;
     ScanResult result;
     result.graph = d->builder.finalize(d->canonicalRoot, d->cancelled.loadRelaxed() != 0, wall);
+    // Optional reflink pass: honest freeable sizes on CoW filesystems.
+    if (d->options.detectReflinks && !result.graph.summary.partial)
+        result.graph = ReflinkAnalyzer::analyze(result.graph);
     return result;
 }
 

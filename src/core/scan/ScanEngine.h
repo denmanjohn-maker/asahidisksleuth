@@ -19,6 +19,10 @@ struct ScanOptions {
     int maxConcurrency = 32;
     /// Traverse onto other mounts at mount points.
     bool crossVolumes = false;
+    /// After the scan, run the FIEMAP reflink pass (CoW filesystems only) so
+    /// the Unique/freeable lens accounts for clone families. Off by default:
+    /// it costs one open+ioctl per regular file.
+    bool detectReflinks = false;
 };
 
 struct ScanResult {

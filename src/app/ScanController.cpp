@@ -68,8 +68,14 @@ void ScanController::scan(const QString &path)
     cancelScan();
     m_graph.reset();
 
+    // Always run the reflink pass in the GUI so the Freeable lens is honest
+    // on CoW filesystems. The graph is finalized before the results page
+    // appears, so the extra pass overlaps with page setup.
+    ScanOptions options;
+    options.detectReflinks = true;
+
     QString error;
-    m_session = ScanEngine::scan(path, {}, &error);
+    m_session = ScanEngine::scan(path, options, &error);
     if (!m_session) {
         emit errorOccurred(error);
         return;
@@ -176,6 +182,8 @@ QString ScanController::nodeBadges(qint32 raw) const
         return {};
     const NodeFlags f = m_graph->flags(NodeID{raw});
     QStringList parts;
+    if (f.cloned())
+        parts << QStringLiteral("⧉ clone");
     if (f.sparse())
         parts << QStringLiteral("▤ sparse");
     if (f.hardlinked())
